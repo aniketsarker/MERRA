@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -18,16 +18,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle 8.5
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 8.5
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Build Meera APK
+        run: gradle assembleDebug
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
-
-      - name: Upload Meera APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Meera-APK-Download
